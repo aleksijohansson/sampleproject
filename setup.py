@@ -14,11 +14,11 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
-with open(path.join(here, 'wundertools-py/README.rst'), encoding='utf-8') as f:
+with open(path.join(here, 'wundertools/README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='wundertools',
+    name='wundertools-py',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
@@ -103,7 +103,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'wundertools=wundertools:main',
+            'wundertools-py=wundertools.wundertools:main',
         ],
     },
 )

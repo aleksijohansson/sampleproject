@@ -1,3 +1,3 @@
-[submodule "wundertools-py"]
-	path = wundertools-py
+[submodule "wundertools"]
+	path = wundertools
 	url = git@github.com:aleksijohansson/wundertools-py.git
