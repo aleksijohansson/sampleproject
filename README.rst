@@ -1,3 +1,3 @@
-wundertools-py-pypi
-===================
-PyPI distribution for https://github.com/aleksijohansson/wundertools-py.
+wundertools-py
+==============
+Tool written in Python for working with Docker containers.

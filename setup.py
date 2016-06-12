@@ -14,11 +14,11 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
-with open(path.join(here, 'wundertools/README.rst'), encoding='utf-8') as f:
+with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='wundertools-py',
+    name='wundertools',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
@@ -29,7 +29,7 @@ setup(
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/aleksijohansson/wundertools-py-pypi',
+    url='https://github.com/aleksijohansson/wundertools-py',
 
     # Author details
     author='Aleksi Johansson',
@@ -64,17 +64,21 @@ setup(
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
     # packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+    packages=find_packages(),
 
     # Alternatively, if you want to distribute just a my_module.py, uncomment
     # this:
-    py_modules=["wundertools/wundertools"],
+    # py_modules=["my_module.py"],
 
     # List run-time dependencies here.  These will be installed by pip when
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     # install_requires=['peppercorn'],
-    install_requires=['docker-compose >= 1.7.1, < 2'],
+    install_requires=[
+        'docker-compose >= 1.7.1, < 2',
+        'docker-py >= 1.8.1, < 2',
+    ],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
@@ -101,10 +105,9 @@ setup(
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow
     # pip to create the appropriate form of executable for the target platform.
-    # TODO: Change this to wundertools.main:main and change the file name too.
     entry_points={
         'console_scripts': [
-            'wundertools-py=wundertools.main:main',
+            'wundertools=wundertools.main:main',
         ],
     },
 )
