@@ -25,7 +25,7 @@ setup(
     # https://packaging.python.org/en/latest/single_source_version.html
     version='0.0.1',
 
-    description='Tool written in Python for working with Docker containers.',
+    description='Tool for working with Docker containers',
     long_description=long_description,
 
     # The project's main homepage.
