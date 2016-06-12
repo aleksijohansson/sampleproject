@@ -19,7 +19,7 @@ You can clone this module locally and install it in development mode in an virtu
   cd wundertool-py
   pyvenv .
   source bin/activate
-  pip install -e .
+  pip install -e ".[dev]"
 
 You always need to activate the wundertool-py virtual environment when opening a new terminal for development::
 
