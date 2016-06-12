@@ -3,7 +3,8 @@ wundertool-py
 Tool for working with `Docker <https://www.docker.com/>`_ containers.
 
 Requirements:
-  - python 3 or later
+
+- python 3 or later
 
 Installation
 ------------
@@ -11,7 +12,7 @@ You can always install the tool from PyPI with::
 
   pip install wundertool
 
-*Note: OS X doesn't have python 3 or pip installed by default. You should install them with :code:`brew` first and then install :code:`wundertool`*::
+*Note: OS X doesn't have python 3 or pip installed by default. You should install them with `brew` first and then install `wundertool`*::
 
   brew install python3
   pip3 install wundertool
@@ -19,7 +20,8 @@ You can always install the tool from PyPI with::
 Development
 -----------
 Requirements:
-  - python 3.4 or later
+
+- python 3.4 or later
 
 You can clone this module locally and install it in development mode in an virtual environment like this::
 
