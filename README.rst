@@ -17,6 +17,16 @@ You can always install the tool from PyPI with::
   brew install python3
   pip3 install wundertool
 
+Upgrade
+-------
+Upgrade to the latest version with::
+
+  pip install wundertool --upgrade
+
+or on OS X with python 3::
+
+  pip3 install wundertool --upgrade
+
 Development
 -----------
 Requirements:
