@@ -18,7 +18,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='wundertools',
+    name='wundertool',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
@@ -29,7 +29,7 @@ setup(
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/aleksijohansson/wundertools-py',
+    url='https://github.com/aleksijohansson/wundertool-py',
 
     # Author details
     author='Aleksi Johansson',
@@ -59,7 +59,7 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords='wundertools docker containers container-management',
+    keywords='wundertools wundertool docker containers container-management',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
@@ -107,7 +107,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'wundertools=wundertools.main:main',
+            'wundertool=wundertool.main:main',
         ],
     },
 )
