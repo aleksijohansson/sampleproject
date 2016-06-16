@@ -1,4 +1,7 @@
 
+# Needed system modules.
+import os
+
 # Use PyYAML to parse settings file etc.
 import yaml
 
@@ -21,7 +24,7 @@ def confirm(prompt, assume=False, reminder=False, retries=3):
             return True
         retries = retries - 1
         if retries == 0:
-            raise ValueError('invalid user response')
+            raise ValueError('Invalid user response.')
         if reminder != False:
             print(reminder)
 
@@ -29,8 +32,14 @@ def confirm(prompt, assume=False, reminder=False, retries=3):
 def usage():
     print("This is how you should use the tool.")
 
-def get_settings():
-    return yaml.load(open('wundertool-settings.yml'))
+def get_settings(path):
+    settings_file_path = path + "wundertool-settings.yml"
+    if os.path.isfile(settings_file_path):
+        return yaml.load(open(settings_file_path))
+    elif path == os.path.abspath(os.sep):
+        raise ImportError('Settings file (wundertool-settings.yml) not found. Run `wundertool init` in your project root folder to generate one.')
+    else:
+        return get_settings(os.path.abspath(os.path.join(path, os.pardir)))
 
 def get_alfanum(text):
     from string import ascii_letters, digits
