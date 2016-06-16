@@ -31,3 +31,7 @@ def usage():
 
 def get_settings():
     return yaml.load(open('wundertool-settings.yml'))
+
+def get_alfanum(text):
+    from string import ascii_letters, digits
+    return "".join([ch for ch in text if ch in (ascii_letters + digits)]).lower()

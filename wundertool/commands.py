@@ -2,10 +2,18 @@
 # Needed system modules.
 import subprocess
 
+# Use faker to create random project names.
+import faker
+
 # Get the submodules.
 import wundertool.commands
 import wundertool.helpers
 import wundertool.handler
+
+def init():
+    generator = faker.Faker()
+    settings = {"project": {"name": wundertool.helpers.get_alfanum(generator.company())}}
+    print("Settings:", settings)
 
 # Start (and create if not existing) the containers.
 def up():

@@ -77,6 +77,7 @@ setup(
     # install_requires=['peppercorn'],
     install_requires=[
         'PyYAML >= 3.11, < 4',
+        'fake-factory >= 0.5.7, < 1',
     ],
 
     # List additional groups of dependencies here (e.g. development
