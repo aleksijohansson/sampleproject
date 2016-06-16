@@ -24,7 +24,7 @@ def ps():
 def cleanup():
     if wundertool.helpers.confirm("This will stop and remove all containers on your system. Are you sure?"):
         containers = subprocess.check_output(["docker", "ps", "-a", "-q"])
-        containers = containers.decode("utf-8").split("\n")
+        containers = containers.decode().split("\n")
         containers = list(filter(None, containers))
         print("Stopping all containers on the system...")
         _docker("stop", containers)
