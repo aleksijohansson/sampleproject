@@ -1,9 +1,6 @@
 
-# Use argparse for basic help and usage of the tool.
+# Needed system modules.
 import argparse
-
-# Use PyYAML to parse settings file etc.
-import yaml
 
 # Get the submodules.
 import wundertool.helpers
@@ -23,6 +20,3 @@ def main():
         raise
     else:
         func()
-
-def settings():
-    return yaml.load(open('wundertool-settings.yml'))

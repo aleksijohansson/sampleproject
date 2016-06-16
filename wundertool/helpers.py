@@ -1,4 +1,7 @@
 
+# Use PyYAML to parse settings file etc.
+import yaml
+
 # General function for confirming before continuing.
 def confirm(prompt, assume=False, reminder=False, retries=3):
     if assume == True:
@@ -25,3 +28,6 @@ def confirm(prompt, assume=False, reminder=False, retries=3):
 # TODO: This might become deprecated when using argparse in the main module.
 def usage():
     print("This is how you should use the tool.")
+
+def get_settings():
+    return yaml.load(open('wundertool-settings.yml'))

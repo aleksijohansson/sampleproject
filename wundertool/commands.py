@@ -1,8 +1,11 @@
 
+# Needed system modules.
 import subprocess
 
 # Get the submodules.
+import wundertool.commands
 import wundertool.helpers
+import wundertool.handler
 
 # Start (and create if not existing) the containers.
 def up():
@@ -17,8 +20,15 @@ def down():
     if wundertool.helpers.confirm("This will stop and remove the containers. Are you sure?"):
         _compose("down")
 
+def rm():
+    if wundertool.helpers.confirm("This will remove stopped containers. Are you sure?"):
+        _compose("rm", ["-f", "--all"])
+
 def ps():
     _compose("ps")
+
+def logs():
+    _compose("logs")
 
 # Stop and remove all containers on the system.
 def cleanup():
@@ -33,8 +43,8 @@ def cleanup():
 
 # Pass commands to docker-compose bin.
 def _compose(command, command_args=[], compose_args=[]):
-    settings = wundertool.handler.settings()
-    project = "-p %s" % settings.get("project_name")
+    settings = wundertool.helpers.get_settings()
+    project = "-p %s" % settings.get("project").get("name")
     process = subprocess.run(["docker-compose", project] + compose_args + [command] + command_args)
 
 # Pass commands to docker bin.
