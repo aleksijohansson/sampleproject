@@ -76,8 +76,7 @@ setup(
     # https://packaging.python.org/en/latest/requirements.html
     # install_requires=['peppercorn'],
     install_requires=[
-        'docker-compose >= 1.7.1, < 2',
-        'docker-py >= 1.8.1, < 2',
+        'PyYAML >= 3.11, < 4',
     ],
 
     # List additional groups of dependencies here (e.g. development
@@ -113,7 +112,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'wundertool=wundertool.main:main',
+            'wundertool=wundertool.handler:main',
         ],
     },
 )
