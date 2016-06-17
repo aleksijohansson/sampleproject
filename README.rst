@@ -2,6 +2,13 @@ wundertool-py
 ==============
 Tool for working with `Docker <https://www.docker.com/>`_ containers.
 
+Mission statement:
+
+1. Provide a simplified and unified tool for all the members of the team.
+2. Provide additional functionality to existing tools.
+3. Include everything from developing to packaging and deploying code in one tool.
+3. Allow the project team to easily define the whole stack of software required for the project that is used everywhere from local development to production.
+
 Requirements:
 
 - python 3 or later
