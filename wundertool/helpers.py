@@ -9,7 +9,7 @@ import yaml
 import faker
 
 # Define some multi-use variables.
-pwd = os.getcwd() + "/"
+pwd = os.getcwd()
 settings_file_name = "wundertool-settings.yml"
 
 # General function for confirming before continuing.
@@ -52,11 +52,11 @@ def create_settings():
     if get_settings(pwd, True):
         print("Settings file (%s) already exists." % settings_file_name)
     else:
-        with open(pwd + settings_file_name, 'w') as outfile:
+        with open(pwd + "/" + settings_file_name, 'w') as outfile:
             outfile.write(yaml.dump(settings, default_flow_style=False, explicit_start=True))
 
 def get_settings(path=pwd, path_only=False):
-    settings_file_path = path + settings_file_name
+    settings_file_path = path + "/" + settings_file_name
     if os.path.isfile(settings_file_path):
         if path_only:
             return settings_file_path
@@ -69,9 +69,9 @@ def get_settings(path=pwd, path_only=False):
             raise ImportError("Settings file (%s) not found." % settings_file_name)
     else:
         if path_only:
-            return get_settings(os.path.abspath(os.path.join(path, os.pardir)) + "/", True)
+            return get_settings(os.path.abspath(os.path.join(path, os.pardir)), True)
         else:
-            return get_settings(os.path.abspath(os.path.join(path, os.pardir)) + "/")
+            return get_settings(os.path.abspath(os.path.join(path, os.pardir)))
 
 def get_alfanum(text):
     from string import ascii_letters, digits
