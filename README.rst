@@ -27,6 +27,12 @@ or on OS X with python 3::
 
   pip3 install wundertool --upgrade
 
+Usage
+-----
+Currently available commands are mostly equivalent of those of docker-compose. See this for list of available commands::
+
+  wundertool commands
+
 Development
 -----------
 Requirements:

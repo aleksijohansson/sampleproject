@@ -2,6 +2,7 @@
 # Needed system modules.
 import subprocess
 import os
+import inspect
 
 # Docker.
 import docker
@@ -37,6 +38,7 @@ def logs():
     _compose("logs")
 
 # Stop and remove all containers on the system.
+# TODO: Update this to use docker-py Client.
 def cleanup():
     if wundertool.helpers.confirm("This will stop and remove all containers on your system. Are you sure?"):
         containers = subprocess.check_output(["docker", "ps", "-a", "-q"])
@@ -70,6 +72,14 @@ def shell():
         ] + links + [
         settings.get("images").get("shell"),
     ])
+
+def commands():
+    all_functions = inspect.getmembers(wundertool.commands, inspect.isfunction)
+    function_names = []
+    for function in all_functions:
+        if not "_" in function[0]:
+            function_names.append(str(function[0]))
+    print("Available commands are:\n%s" % "\n".join(function_names))
 
 # Pass commands to docker-compose bin.
 def _compose(command, command_args=[], compose_args=[]):
