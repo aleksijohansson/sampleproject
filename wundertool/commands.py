@@ -3,33 +3,15 @@
 import subprocess
 import os
 
-# Use faker to create random project names.
-import faker
+# Docker.
+import docker
 
-# Use PyYAML to parse settings file etc.
-import yaml
-
-# Get the submodules.
-import wundertool.commands
+# Get the submodules
 import wundertool.helpers
 import wundertool.handler
 
-# Define some multi-use variables.
-current = os.getcwd() + "/"
-
 def init():
-    generator = faker.Faker()
-    settings = {
-        "project": {
-            "name": wundertool.helpers.get_alfanum(generator.company())
-        }
-    }
-    settings_file_path = current + "wundertool-settings.yml"
-    if not os.path.isfile(settings_file_path):
-        with open(settings_file_path, 'w') as outfile:
-            outfile.write(yaml.dump(settings, default_flow_style=False, explicit_start=True))
-    else:
-        print("Project settings file (wundertool-settings.yml) already exists.")
+    wundertool.helpers.create_settings()
 
 # Start (and create if not existing) the containers.
 def up():
@@ -65,6 +47,30 @@ def cleanup():
         print("Removing all containers on the system...")
         _docker("rm", containers)
 
+def shell():
+    settings = wundertool.helpers.get_settings()
+    cli = docker.Client()
+    containers = cli.containers()
+    # Get the containers of this project.
+    links = []
+    net = "default" # Assume default network.
+    for container in containers:
+        if container.get("Labels").get("com.docker.compose.project") == settings.get("project").get("name"):
+            links.append("--link=" + container.get("Id") + ":" + container.get("Labels").get("com.docker.compose.service") + ".app")
+            for network in container.get("NetworkSettings").get("Networks"):
+                # Assumes project services are in a single network.
+                net = network
+    _docker("run", [
+        "--rm",
+        "-t",
+        "-i",
+        "--name=%s_shell" % settings.get("project").get("name"),
+        "--hostname=%s" % settings.get("project").get("name"),
+        "--net=%s" % net,
+        ] + links + [
+        settings.get("images").get("shell"),
+    ])
+
 # Pass commands to docker-compose bin.
 def _compose(command, command_args=[], compose_args=[]):
     settings = wundertool.helpers.get_settings()
@@ -72,5 +78,6 @@ def _compose(command, command_args=[], compose_args=[]):
     process = subprocess.run(["docker-compose", project] + compose_args + [command] + command_args)
 
 # Pass commands to docker bin.
+# TODO: Change this to use docker-py Client.
 def _docker(command, args=[]):
     process = subprocess.run(["docker", command] + args)

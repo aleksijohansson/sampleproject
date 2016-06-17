@@ -78,6 +78,7 @@ setup(
     install_requires=[
         'PyYAML >= 3.11, < 4',
         'fake-factory >= 0.5.7, < 1',
+        'docker-py >= 1.8.1, < 2',
     ],
 
     # List additional groups of dependencies here (e.g. development

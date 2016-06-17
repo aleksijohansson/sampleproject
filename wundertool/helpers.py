@@ -5,6 +5,13 @@ import os
 # Use PyYAML to parse settings file etc.
 import yaml
 
+# Use faker to create random project names.
+import faker
+
+# Define some multi-use variables.
+pwd = os.getcwd() + "/"
+settings_file_name = "wundertool-settings.yml"
+
 # General function for confirming before continuing.
 def confirm(prompt, assume=False, reminder=False, retries=3):
     if assume == True:
@@ -32,14 +39,39 @@ def confirm(prompt, assume=False, reminder=False, retries=3):
 def usage():
     print("This is how you should use the tool.")
 
-def get_settings(path):
-    settings_file_path = path + "wundertool-settings.yml"
-    if os.path.isfile(settings_file_path):
-        return yaml.load(open(settings_file_path))
-    elif path == os.path.abspath(os.sep):
-        raise ImportError('Settings file (wundertool-settings.yml) not found. Run `wundertool init` in your project root folder to generate one.')
+def create_settings():
+    generator = faker.Faker()
+    settings = {
+        "images": {
+            "shell": "quay.io/wunder/wundertools-image-fuzzy-developershell",
+        },
+        "project": {
+            "name": get_alfanum(generator.company()),
+        },
+    }
+    if get_settings(pwd, True):
+        print("Settings file (%s) already exists." % settings_file_name)
     else:
-        return get_settings(os.path.abspath(os.path.join(path, os.pardir)))
+        with open(pwd + settings_file_name, 'w') as outfile:
+            outfile.write(yaml.dump(settings, default_flow_style=False, explicit_start=True))
+
+def get_settings(path=pwd, path_only=False):
+    settings_file_path = path + settings_file_name
+    if os.path.isfile(settings_file_path):
+        if path_only:
+            return settings_file_path
+        else:
+            return yaml.load(open(settings_file_path))
+    elif path == os.path.abspath(os.sep):
+        if path_only:
+            return False
+        else:
+            raise ImportError("Settings file (%s) not found." % settings_file_name)
+    else:
+        if path_only:
+            return get_settings(os.path.abspath(os.path.join(path, os.pardir)) + "/", True)
+        else:
+            return get_settings(os.path.abspath(os.path.join(path, os.pardir)) + "/")
 
 def get_alfanum(text):
     from string import ascii_letters, digits
