@@ -9,7 +9,6 @@ import docker
 
 # Get the submodules
 import wundertool.helpers
-import wundertool.handler
 
 def init():
     wundertool.helpers.create_settings()
