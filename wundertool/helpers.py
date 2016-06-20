@@ -15,23 +15,23 @@ settings_file_name = "wundertool-settings.yml"
 # General function for confirming before continuing.
 def confirm(prompt, assume=False, reminder=False, retries=3):
     if assume == True:
-        prompt = prompt + ' [Y/n] '
+        prompt = prompt + " [Y/n] "
     else:
-        prompt = prompt + ' [y/N] '
+        prompt = prompt + " [y/N] "
     while True:
         response = input(prompt)
         if (assume == True and
-            response == ''):
+            response == ""):
             return True
-        elif response == '':
+        elif response == "":
             return False
-        elif response in ('n', 'no', 'N', 'No'):
+        elif response in ("n", "no", "N", "No"):
             return False
-        elif response in ('y', 'ye', 'yes', 'Y', 'Yes'):
+        elif response in ("y", "ye", "yes", "Y", "Yes"):
             return True
         retries = retries - 1
         if retries == 0:
-            raise ValueError('Invalid user response.')
+            raise ValueError("Invalid user response.")
         if reminder != False:
             print(reminder)
 
@@ -44,6 +44,7 @@ def create_settings():
     settings = {
         "images": {
             "shell": "quay.io/wunder/wundertools-image-fuzzy-developershell",
+            "source": "source"
         },
         "project": {
             "name": get_alfanum(generator.company()),

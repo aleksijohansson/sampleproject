@@ -50,7 +50,7 @@ Requirements:
 
 You can clone this module locally and install it in development mode in an virtual environment like this::
 
-  git clone https://github.com/aleksijohansson/wundertool-py.git
+  git clone https://github.com/wunderkraut/wundertool-py.git
   cd wundertool-py
   pyvenv .
   source bin/activate

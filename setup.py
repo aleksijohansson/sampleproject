@@ -23,17 +23,17 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.1.1',
+    version='0.1.3',
 
     description='Tool for working with Docker containers',
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/aleksijohansson/wundertool-py',
+    url='https://github.com/wunderkraut/wundertool-py',
 
     # Author details
     author='Aleksi Johansson',
-    author_email='aleksi@aleksijohansson.net',
+    author_email='aleksi.johansson@wunderkraut.com',
 
     # Choose your license
     license='MIT',
@@ -44,7 +44,7 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 1 - Planning',
+        'Development Status :: 3 - Alpha',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
