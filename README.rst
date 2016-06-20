@@ -11,6 +11,8 @@ Mission statement:
 
 Requirements:
 
+- docker
+- docker-compose
 - python 3 or later
 
 Installation
