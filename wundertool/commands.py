@@ -99,7 +99,8 @@ def commands():
 def _compose(command, command_args=[], compose_args=[]):
     settings = wundertool.helpers.get_settings()
     project = "-p %s" % settings.get("project").get("name")
-    process = subprocess.run(["docker-compose", project] + compose_args + [command] + command_args)
+    compose = os.path.join(os.path.dirname(__file__), "compose", "script", "run", "run.sh")
+    process = subprocess.run([compose, project] + compose_args + [command] + command_args)
 
 # Pass commands to docker bin.
 # TODO: Change this to use docker-py Client.
