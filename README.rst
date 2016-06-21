@@ -51,6 +51,8 @@ You can clone this module locally and install it in development mode in an virtu
 
   git clone https://github.com/wunderkraut/wundertool-py.git
   cd wundertool-py
+  git submodule init
+  git submodule update
   pyvenv .
   source bin/activate
   pip install -e ".[dev]"
@@ -58,3 +60,17 @@ You can clone this module locally and install it in development mode in an virtu
 You always need to activate the wundertool-py virtual environment when opening a new terminal for development::
 
   source <DIR>/wundertool-py/bin/activate
+
+Submodule upstream changes can be updated with::
+
+  git submodule update --remote
+
+Distribution packages to PyPI can be created with::
+
+  python setup.py sdist
+  python setup.py bdist_wheel
+
+Distribution packages can be uploaded to PyPI with::
+
+  twine upload dist/wundertool-[version].tar.gz
+  twine upload dist/wundertool-[version]-py3-none-any.whl
