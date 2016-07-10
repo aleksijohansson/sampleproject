@@ -25,6 +25,13 @@ def main():
         else:
             func()
 
+# TODO: Extend this to allow storing local commands per user at ~/.wundertool/commands.yml
+# TODO: Maybe allow some settings at ~/.wundertool/settings.yml or maybe even
+# divide the settings even more to wundertool/project.yml
+# TODO: Implement a global init function to init ~/.wundertool settings.
+# TODO: Global ~/.wundertool/settings.yml should have configuration option
+# where one can define wether global or local settings should be preferred
+# (this allows one to always use global shell for example even if there is one include in the project)
 def exec_local_command(command, args):
     commands = wundertool.helpers.get_config(local_commands_file)
     if commands:
