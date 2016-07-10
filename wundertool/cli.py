@@ -6,6 +6,9 @@ import argparse
 import wundertool.helpers
 import wundertool.commands
 
+# Get the global settings variables.
+from wundertool.settings import local_commands_file
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('command')

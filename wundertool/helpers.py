@@ -8,10 +8,12 @@ import yaml
 # Use faker to create random project names.
 import faker
 
-# Define some multi-use variables.
-pwd = os.getcwd()
-settings_path = "wundertool"
-settings_main_file = settings_path + "/settings.yml"
+# Get the global settings variables.
+from wundertool.settings import pwd
+from wundertool.settings import settings_path
+from wundertool.settings import settings_main_file
+from wundertool.settings import local_commands_file
+from wundertool.settings import default_command_config
 
 # General function for confirming before continuing.
 def confirm(prompt, assume=False, reminder=False, retries=3):
