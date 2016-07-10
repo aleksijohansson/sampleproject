@@ -10,7 +10,8 @@ import faker
 
 # Define some multi-use variables.
 pwd = os.getcwd()
-settings_file_name = "wundertool-settings.yml"
+settings_path = "wundertool"
+settings_main_file = settings_path + "/settings.yml"
 
 # General function for confirming before continuing.
 def confirm(prompt, assume=False, reminder=False, retries=3):
@@ -51,23 +52,25 @@ def create_settings():
         },
     }
     if get_settings(pwd, True):
-        print("Settings file (%s) already exists." % settings_file_name)
+        print("Settings file (%s) already exists." % settings_main_file)
     else:
-        with open(pwd + "/" + settings_file_name, 'w') as outfile:
+        if not os.path.exists(pwd + "/" + settings_path):
+            os.makedirs(pwd + "/" + settings_path)
+        with open(pwd + "/" + settings_main_file, 'w') as outfile:
             outfile.write(yaml.dump(settings, default_flow_style=False, explicit_start=True))
 
 def get_settings(path=pwd, path_only=False):
-    settings_file_path = path + "/" + settings_file_name
-    if os.path.isfile(settings_file_path):
+    settings_main_file_path = path + "/" + settings_main_file
+    if os.path.isfile(settings_main_file_path):
         if path_only:
-            return settings_file_path
+            return settings_main_file_path
         else:
-            return yaml.load(open(settings_file_path))
+            return yaml.load(open(settings_main_file_path))
     elif path == os.path.abspath(os.sep):
         if path_only:
             return False
         else:
-            raise ImportError("Settings file (%s) not found." % settings_file_name)
+            raise ImportError("Settings file (%s) not found." % settings_main_file)
     else:
         if path_only:
             return get_settings(os.path.abspath(os.path.join(path, os.pardir)), True)
