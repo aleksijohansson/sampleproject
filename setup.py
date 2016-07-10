@@ -76,7 +76,7 @@ setup(
     # https://packaging.python.org/en/latest/requirements.html
     # install_requires=['peppercorn'],
     install_requires=[
-        'PyYAML >= 3.11, < 4',
+        'ruamel.yaml >= 0.11.14, < 1',
         'fake-factory >= 0.5.7, < 1',
         'docker-py >= 1.8.1, < 2',
     ],
