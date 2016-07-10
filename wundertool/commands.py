@@ -53,9 +53,10 @@ def cleanup():
         _docker("rm", containers)
 
 # Start a developer shell mapping source and linking to containers of the project.
-# TODO: Change this so that each shell name is unique so that we can run multiple shells at once.
+# TODO: Change this so that each shell name is unique so that we can run multiple shells at once. Maybe consider name from entrypoint.
 # TODO: Add host volume project mount to this command so that it automatically always mounts the project folder to /app/project
 # TODO: Add host volume pwd mount to this command so that it automatically always mounts the pwd to /app/pwd
+# TODO: Consider binding ~/.ssh etc. folders from the host. Maybe allow configuring this?
 def shell(entrypoint=False, args=[]):
     settings = wundertool.helpers.get_config()
     cli = docker.Client()

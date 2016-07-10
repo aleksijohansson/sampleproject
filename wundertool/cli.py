@@ -32,6 +32,8 @@ def main():
 # TODO: Global ~/.wundertool/settings.yml should have configuration option
 # where one can define wether global or local settings should be preferred
 # (this allows one to always use global shell for example even if there is one include in the project)
+# TODO: Allow running of shell command and local commands by binding pwd to the container
+# so that no project is needed and no project or user specific settings is needed.
 def exec_local_command(command, args):
     commands = wundertool.helpers.get_config(local_commands_file)
     if commands:

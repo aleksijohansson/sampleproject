@@ -42,6 +42,8 @@ def confirm(prompt, assume=False, reminder=False, retries=3):
 def usage():
     print("This is how you should use the tool.")
 
+# TODO: Add comments to the created settings now that it's possible with
+# ruamel.yaml, see http://yaml.readthedocs.io/en/latest/example.html
 def create_example(settings_file=False, type="settings"):
     if not settings_file:
         create_example(settings_main_file)
