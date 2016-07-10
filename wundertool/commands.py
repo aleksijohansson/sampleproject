@@ -53,27 +53,29 @@ def cleanup():
         _docker("rm", containers)
 
 # Start a developer shell mapping source and linking to containers of the project.
+# TODO: Change this so that each shell name is unique so that we can run multiple shells at once.
+# TODO: Add host volume project mount to this command so that it automatically always mounts the project folder to /app/project
 def shell():
     settings = wundertool.helpers.get_settings()
     cli = docker.Client()
     containers = cli.containers(all=True)
     # Get the containers of this project.
     links = []
-    source_image = ""
+    volumes = []
     net = "default" # Assume default network.
     for container in containers:
         if container.get("Labels").get("com.docker.compose.project") == settings.get("project").get("name"):
             # Link all the containers in the project.
-            links.append("--link=" + container.get("Id") + ":" + container.get("Labels").get("com.docker.compose.service") + ".app")
-            # Get the source container.
-            if container.get("Labels").get("com.docker.compose.service") == settings.get("images").get("source"):
-                source_image = container.get("Id")
+            name = container.get("Names")
+            name = name[0].strip("/")
+            # Get volumes from all the containers.
+            if container.get("Mounts"):
+                volumes.append("--volumes-from=%s" % name)
+            links.append("--link=" + name + ":" + container.get("Labels").get("com.docker.compose.service") + ".app")
             # Get the network the project containers use.
             for network in container.get("NetworkSettings").get("Networks"):
                 # Assumes project services are in a single network.
                 net = network
-    if not source_image:
-        raise ValueError("Specified source container not found.")
     _docker("run", [
         "--rm",
         "-t",
@@ -81,10 +83,19 @@ def shell():
         "--name=%s_shell" % settings.get("project").get("name"),
         "--hostname=%s" % settings.get("project").get("name"),
         "--net=%s" % net,
-        "--volumes-from=%s" % source_image,
-        ] + links + [
+        ] + links + volumes + [
         settings.get("images").get("shell"),
     ])
+
+def build():
+    # Get volumes of containers in the project.
+    # Generate a Dockerfile where those volumes are added into the image.
+    # Build the images with the project name and branch included in the name.
+    print("Undefined command.")
+
+def push():
+    # Push the built images with their tags.
+    print("Undefined command.")
 
 # List available commands.
 def commands():
