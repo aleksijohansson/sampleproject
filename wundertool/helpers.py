@@ -2,8 +2,8 @@
 # Needed system modules.
 import os
 
-# Use PyYAML to parse settings file etc.
-import yaml
+# Use ruamel.yaml to parse settings file etc.
+import ruamel.yaml
 
 # Use faker to create random project names.
 import faker
@@ -42,43 +42,66 @@ def confirm(prompt, assume=False, reminder=False, retries=3):
 def usage():
     print("This is how you should use the tool.")
 
-def create_settings():
-    generator = faker.Faker()
-    settings = {
-        "images": {
-            "shell": "quay.io/wunder/wundertools-image-fuzzy-developershell",
-            "source": "source"
-        },
-        "project": {
-            "name": get_alfanum(generator.company()),
-        },
-    }
-    if get_settings(pwd, True):
-        print("Settings file (%s) already exists." % settings_main_file)
+def create_example(settings_file=False, type="settings"):
+    if not settings_file:
+        create_example(settings_main_file)
+        create_example(local_commands_file, "commands")
     else:
-        if not os.path.exists(pwd + "/" + settings_path):
-            os.makedirs(pwd + "/" + settings_path)
-        with open(pwd + "/" + settings_main_file, 'w') as outfile:
-            outfile.write(yaml.dump(settings, default_flow_style=False, explicit_start=True))
-
-def get_settings(path=pwd, path_only=False):
-    settings_main_file_path = path + "/" + settings_main_file
-    if os.path.isfile(settings_main_file_path):
-        if path_only:
-            return settings_main_file_path
+        if type == "settings":
+            generator = faker.Faker()
+            settings = {
+                "images": {
+                    "shell": "quay.io/wunder/wundertools-image-fuzzy-developershell",
+                    "source": "source"
+                },
+                "project": {
+                    "name": get_alfanum(generator.company()),
+                },
+            }
+        elif type == "commands":
+            settings = {
+                "drush": {
+                    "type": "shell",
+                    "entrypoint": "/app/.composer/vendor/bin/drush"
+                },
+                "wget": None,
+            }
+        if get_config(settings_file, True, pwd):
+            print("Settings file (%s) already exists." % settings_file)
         else:
-            return yaml.load(open(settings_main_file_path))
-    elif path == os.path.abspath(os.sep):
-        if path_only:
-            return False
-        else:
-            raise ImportError("Settings file (%s) not found." % settings_main_file)
-    else:
-        if path_only:
-            return get_settings(os.path.abspath(os.path.join(path, os.pardir)), True)
-        else:
-            return get_settings(os.path.abspath(os.path.join(path, os.pardir)))
+            if not os.path.exists(pwd + "/" + settings_path):
+                os.makedirs(pwd + "/" + settings_path)
+            with open(pwd + "/" + settings_file, 'w') as outfile:
+                outfile.write(ruamel.yaml.round_trip_dump(settings, explicit_start=True))
 
 def get_alfanum(text):
     from string import ascii_letters, digits
     return "".join([ch for ch in text if ch in (ascii_letters + digits)]).lower()
+
+def get_config(config=settings_main_file, path_only=False, path=pwd):
+    config_path = path + "/" + config
+    if os.path.isfile(config_path):
+        if path_only:
+            return config_path
+        else:
+            return ruamel.yaml.round_trip_load(open(config_path))
+    elif path == os.path.abspath(os.sep):
+        if path_only:
+            return False
+        else:
+            raise ImportError("Settings file (%s) not found." % config)
+    else:
+        if path_only:
+            return get_config(config, True, os.path.abspath(os.path.join(path, os.pardir)))
+        else:
+            return get_config(config, os.path.abspath(os.path.join(path, os.pardir)))
+
+def get_cmd_config(command, config):
+    if not isinstance(config, dict):
+        config = default_command_config
+    # Make sure we have everything we need.
+    if not config.get("type"):
+        config["type"] = default_command_config["type"]
+    if not config.get("entrypoint"):
+        config["entrypoint"] = "/usr/bin/" + command
+    return config

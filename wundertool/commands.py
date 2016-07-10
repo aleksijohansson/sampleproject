@@ -7,12 +7,12 @@ import inspect
 # Docker.
 import docker
 
-# Get the submodules
+# Get the submodules.
 import wundertool.helpers
 
 # Init a wundertool enabled project.
 def init():
-    wundertool.helpers.create_settings()
+    wundertool.helpers.create_example()
 
 # Start (and create if not existing) the containers.
 def up():
@@ -55,8 +55,9 @@ def cleanup():
 # Start a developer shell mapping source and linking to containers of the project.
 # TODO: Change this so that each shell name is unique so that we can run multiple shells at once.
 # TODO: Add host volume project mount to this command so that it automatically always mounts the project folder to /app/project
-def shell():
-    settings = wundertool.helpers.get_settings()
+# TODO: Add host volume pwd mount to this command so that it automatically always mounts the pwd to /app/pwd
+def shell(entrypoint=False, args=[]):
+    settings = wundertool.helpers.get_config()
     cli = docker.Client()
     containers = cli.containers(all=True)
     # Get the containers of this project.
@@ -76,16 +77,30 @@ def shell():
             for network in container.get("NetworkSettings").get("Networks"):
                 # Assumes project services are in a single network.
                 net = network
-    _docker("run", [
-        "--rm",
-        "-t",
-        "-i",
-        "--name=%s_shell" % settings.get("project").get("name"),
-        "--hostname=%s" % settings.get("project").get("name"),
-        "--net=%s" % net,
-        ] + links + volumes + [
-        settings.get("images").get("shell"),
-    ])
+    if entrypoint:
+        _docker("run", [
+            "--rm",
+            "-t",
+            "-i",
+            "--name=%s_shell" % settings.get("project").get("name"),
+            "--hostname=%s" % settings.get("project").get("name"),
+            "--net=%s" % net,
+            ] + links + volumes + [
+            "--entrypoint=%s" % entrypoint,
+            settings.get("images").get("shell"),
+            ] + args
+        )
+    else:
+        _docker("run", [
+            "--rm",
+            "-t",
+            "-i",
+            "--name=%s_shell" % settings.get("project").get("name"),
+            "--hostname=%s" % settings.get("project").get("name"),
+            "--net=%s" % net,
+            ] + links + volumes + [
+            settings.get("images").get("shell"),
+        ])
 
 def build():
     # Get volumes of containers in the project.
@@ -108,7 +123,7 @@ def commands():
 
 # Pass commands to docker-compose bin.
 def _compose(command, command_args=[], compose_args=[]):
-    settings = wundertool.helpers.get_settings()
+    settings = wundertool.helpers.get_config()
     project = "-p %s" % settings.get("project").get("name")
     compose = os.path.join(os.path.dirname(__file__), "compose", "script", "run", "run.sh")
     process = subprocess.run([compose, project] + compose_args + [command] + command_args)
